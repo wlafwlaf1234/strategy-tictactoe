@@ -239,6 +239,10 @@ body[data-motion=low]:before,body[data-motion=low]:after{animation:none!importan
   .board{gap:6px}
   .board-frame{padding:14px}
 }
+/* 태블릿 가로: 게임판이 화면 높이 안에 들어오도록 크기 제한 */
+@media(orientation:landscape) and (min-width:950px) and (min-height:601px){
+  .play-layout{grid-template-columns:minmax(0,min(640px,calc(100dvh - 300px))) minmax(230px,320px)}
+}
 @media(orientation:landscape) and (max-height:600px){
   .screen{padding-top:max(8px,env(safe-area-inset-top,0px));padding-bottom:max(8px,env(safe-area-inset-bottom,0px))}
   .topbar{margin-bottom:8px;min-height:40px;padding-bottom:8px}

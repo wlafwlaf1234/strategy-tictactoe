@@ -1,6 +1,6 @@
 // 게임 파일을 기기에 저장해 두고, 인터넷이 없어도 실행되게 합니다.
 // 게임을 수정해서 다시 올릴 때는 아래 버전 숫자를 올려 주세요 (예: v2 → v3).
-const CACHE = 'strategy-ttt-v1';
+const CACHE = 'strategy-ttt-v2';
 const FILES = ['./', 'index.html', 'styles.css', 'engine.js', 'core.js', 'app.js', 'pwa.js',
   'icon.svg', 'manifest.webmanifest', 'fonts/px-latin.woff', 'fonts/px-hangul.woff',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
