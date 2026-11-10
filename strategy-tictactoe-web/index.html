@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07071f">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self'; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:; connect-src 'none'; img-src 'self' data:; media-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <title>전략 틱택토</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="전략 틱택토">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="두 칸을 놓을까, 한 칸을 빼앗을까? 7×7 전략 틱택토.">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="engine.js"></script>
+  <script defer src="core.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="pwa.js"></script>
+</head>
+<body>
+<main id="app">
+  <section id="screen-home" class="screen home-screen" aria-labelledby="home-title">
+    <header class="topbar"><span class="wordmark">STRATEGY / 7×7</span><button class="icon-button" data-action="settings" aria-label="설정 열기">설정</button></header>
+    <div class="home-content">
+      <div class="home-intro">
+        <span class="eyebrow">놓고, 빼앗고, 연결하세요.</span>
+        <h1 id="home-title">전략<br><span>틱택토</span><span class="title-dot">.</span></h1>
+        <p class="lead">두 칸을 놓을까,<br>한 칸을 빼앗을까?</p>
+        <p class="insert-coin" aria-hidden="true">INSERT COIN</p>
+        <div class="home-actions">
+          <button id="continue" class="button primary" data-action="continue" hidden>이어하기 <span id="continue-detail"></span></button>
+          <button id="home-new" class="button primary" data-action="setup">새 게임 <span aria-hidden="true">→</span></button>
+          <button class="button secondary" data-action="rules">플레이 방법</button>
+        </div>
+        <p class="offline-note">인터넷 없이 · AI 대전 · 같은 기기로 둘이</p>
+      </div>
+      <div class="home-art" aria-hidden="true">
+        <div class="art-label">ONE MOVE. MORE POSSIBILITIES.</div>
+        <div class="demo-board" id="demo-board"></div>
+        <div class="art-footer"><span class="x-ink">X / 연결</span><span class="o-ink">O / 전환</span></div>
+      </div>
+    </div>
+    <footer class="home-footer"><span class="credit" aria-hidden="true">CREDIT 99</span><span>3목 × 3 또는 5목 이상</span><span>3목 버전 0.6</span></footer>
+  </section>
+  <section id="screen-setup" class="screen" hidden aria-labelledby="setup-title">
+    <header class="topbar"><button class="icon-button" data-action="home">← 메인</button><span class="wordmark">NEW GAME</span><button class="icon-button" data-action="rules">규칙</button></header>
+    <div class="setup-content">
+      <div class="section-heading"><span class="eyebrow">PLAYER SELECT</span><h1 id="setup-title">대전 준비</h1><p>상대와 난이도를 선택하세요.</p></div>
+      <div class="setup-grid">
+        <div class="setup-panel">
+          <h2>대전 방식</h2>
+          <div class="choice-grid two" id="mode-options">
+            <button class="choice" data-pick="mode" data-value="ai"><strong>AI와 대전</strong><small>혼자 즐기는 전략 대결</small></button>
+            <button class="choice" data-pick="mode" data-value="human"><strong>둘이 대전</strong><small>같은 기기로 번갈아 플레이</small></button>
+          </div>
+          <div id="ai-options">
+            <h2>AI 난이도</h2>
+            <div class="choice-grid two" id="level-options">
+              <button class="choice" data-pick="level" data-value="easy"><span class="level-index">01</span><strong>쉬움</strong><small>실수가 잦아요 · 처음 배우기</small></button>
+              <button class="choice" data-pick="level" data-value="medium"><span class="level-index">02</span><strong>중간</strong><small>가끔 실수해요 · 가볍게 승부</small></button>
+              <button class="choice" data-pick="level" data-value="hard"><span class="level-index">03</span><strong>어려움</strong><small>실수 없이 공격과 방어를 판단</small></button>
+              <button class="choice" data-pick="level" data-value="extreme"><span class="level-index">04</span><strong>극악</strong><small>여러 턴의 대응을 깊게 탐색</small></button>
+            </div>
+          </div>
+        </div>
+        <div class="setup-panel">
+          <div id="seat-options"><h2>내 순서</h2><div class="choice-grid three">
+            <button class="choice compact" data-pick="seat" data-value="1"><strong class="x-ink">선공 X</strong></button>
+            <button class="choice compact" data-pick="seat" data-value="-1"><strong class="o-ink">후공 O</strong></button>
+            <button class="choice compact" data-pick="seat" data-value="random"><strong>무작위</strong></button>
+          </div></div>
+          <details id="search-options"><summary>AI 생각 시간</summary><div class="choice-grid three speed-options">
+            <button class="choice compact" data-pick="speed" data-value="fast"><strong>빠르게</strong><small>모바일 기본</small></button>
+            <button class="choice compact" data-pick="speed" data-value="balanced"><strong>균형</strong><small>탐색 시간 확대</small></button>
+            <button class="choice compact" data-pick="speed" data-value="deep"><strong>깊게</strong><small>더 오래 생각</small></button>
+          </div><p class="fineprint">극악의 목표 시간은 빠르게 약 0.44초, 균형 약 0.8초, 깊게 약 2초입니다. 기기에 따라 초과할 수 있으며 필승 AI는 아닙니다.</p></details>
+          <div class="rule-note"><strong>핵심 규칙</strong><p>첫 턴에는 한 칸만 마킹합니다.<br>그다음부터 두 칸 마킹 또는 한 칸 탈취.<br>3목 세 개(한 줄은 하나로 셈)나 5목 이상으로 승리합니다.</p></div>
+          <button class="button primary start-button" data-action="start">게임 시작 <span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="screen-game" class="screen" hidden aria-label="게임">
+    <header class="topbar game-topbar"><button class="icon-button" data-action="pause">← 메뉴</button><span id="game-mode" class="wordmark"></span><button class="icon-button" data-action="settings" aria-label="소리와 효과 설정">설정</button></header>
+    <div class="play-layout">
+      <div class="play-main">
+        <div class="turn-bar"><div><span class="eyebrow" id="turn-label">YOUR TURN</span><h1 id="status" aria-live="polite"></h1></div><span id="turn-piece" class="turn-piece" aria-hidden="true"></span></div>
+        <div class="hint-area"><p id="hint"></p><button id="cancel" class="text-button" data-action="cancel" hidden>선택 취소</button></div>
+        <div class="board-frame"><div id="board" class="board" role="group" aria-label="7행 7열 게임판"></div></div>
+        <div class="board-caption"><span>빈칸 → 마킹 · 상대 돌 → 탈취</span><span>점선: 탈취 금지</span></div>
+      </div>
+      <aside class="game-side" aria-label="대국 정보">
+        <div class="score-panel">
+          <div class="score-block x-score"><div><span class="x-ink">X의 3목</span><strong id="x-count">0 / 3</strong></div><div class="progress" id="x-progress" aria-hidden="true"><i></i><i></i><i></i></div></div>
+          <div class="score-block o-score"><div><span class="o-ink">O의 3목</span><strong id="o-count">0 / 3</strong></div><div class="progress" id="o-progress" aria-hidden="true"><i></i><i></i><i></i></div></div>
+        </div>
+        <div class="game-info"><span id="turn-count">0턴 완료</span><span id="ai-info"></span></div>
+        <div id="thinking" class="thinking" role="status" hidden><span class="thinking-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>AI가 다음 수를 찾고 있어요.</span></div>
+        <div class="game-buttons"><button id="undo" class="button secondary" data-action="undo">되돌리기</button><button id="result-button" class="button primary" data-action="result" hidden>결과 보기</button><button id="game-rules" class="button secondary" data-action="rules">규칙</button></div>
+        <details class="moves-details"><summary>최근 수순</summary><ol id="moves"></ol></details>
+        <p class="save-note" id="save-note">완료한 턴은 이 기기에 자동 저장됩니다.</p>
+      </aside>
+    </div>
+  </section>
+</main>
+<dialog id="modal" aria-labelledby="modal-title"><div class="modal-header"><h2 id="modal-title"></h2><button class="icon-button" data-action="close-modal" aria-label="닫기">닫기</button></div><div id="modal-body"></div></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

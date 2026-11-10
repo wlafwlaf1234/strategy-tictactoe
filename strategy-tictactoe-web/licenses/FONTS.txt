@@ -1,0 +1,10 @@
+Embedded pixel fonts (subsetted to the characters this app uses; see www/fonts/)
+
+1) GNU Unifont  - www/fonts/px-hangul.woff
+   Dual license: SIL Open Font License 1.1, and GNU GPL v2 or later with the GNU Font Embedding Exception.
+   https://unifoundry.com/unifont/   (copyright notice: Unifont-copyright.txt)
+
+2) Silkscreen  - www/fonts/px-latin.woff
+   Copyright (c) Jason Kottke. SIL Open Font License 1.1 (Silkscreen-OFL.txt).
+
+Both fonts are subsetted (fewer glyphs) and converted to WOFF; no glyph shapes were redrawn.

@@ -1,0 +1,34 @@
+# 전략 틱택토 (웹 버전)
+
+7×7 판에서 두 칸을 놓거나 한 칸을 빼앗는 전략 틱택토. 브라우저에서 바로 플레이하고, 홈 화면에 추가하면 앱처럼 오프라인으로도 실행됩니다.
+
+## 파일 구성
+
+| 파일 | 역할 |
+|---|---|
+| `index.html`, `styles.css`, `engine.js`, `core.js`, `app.js`, `fonts/` | 게임 본체 |
+| `manifest.webmanifest`, `icons/`, `icon.svg` | 홈 화면 추가용 앱 정보와 아이콘 |
+| `sw.js`, `pwa.js` | 오프라인 실행(서비스 워커) |
+| `vercel.json` | Vercel 설정 (서비스 워커 캐시, 보안 헤더) |
+| `licenses/` | 폰트 라이선스 (지우지 마세요) |
+
+## Vercel에 올리기
+
+1. GitHub(github.com)에 가입하고 새 저장소(New repository)를 만듭니다. 이름 예: `strategy-tictactoe`, Public.
+2. 저장소 첫 화면에서 **uploading an existing file**을 눌러, 이 폴더 **안의 파일과 폴더 전부**를 끌어다 놓고 **Commit changes**를 누릅니다.
+   (폴더 자체가 아니라 그 안의 내용을 올려야 `index.html`이 저장소 맨 위에 옵니다.)
+3. vercel.com에서 **Continue with GitHub**로 가입합니다 (Hobby 요금제 선택).
+4. **Add New… → Project** → 방금 만든 저장소 옆 **Import**.
+5. Framework Preset은 **Other**, 나머지는 그대로 두고 **Deploy**.
+6. 완료되면 `https://프로젝트이름.vercel.app` 주소가 생깁니다. 이 주소로 QR을 만들면 됩니다.
+
+## 게임을 고쳐서 다시 올릴 때
+
+1. GitHub 저장소에서 바뀐 파일을 다시 업로드(같은 이름이면 덮어쓰기)하고 Commit합니다.
+2. **`sw.js` 맨 위의 `strategy-ttt-v1` 숫자를 하나 올려 주세요** (v2, v3 …). 그래야 이미 접속했던 폰도 새 버전을 받습니다.
+3. Vercel이 1분 안에 자동으로 다시 배포합니다. 주소와 QR은 그대로입니다.
+
+## 참고
+
+- Vercel 무료(Hobby) 요금제는 비상업적 개인 용도만 허용됩니다. 광고·결제를 붙이려면 Pro 요금제가 필요합니다.
+- 저장(이어하기)은 각자의 폰 브라우저에만 남습니다.
