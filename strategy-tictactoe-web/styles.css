@@ -239,14 +239,10 @@ body[data-motion=low]:before,body[data-motion=low]:after{animation:none!importan
   .board{gap:6px}
   .board-frame{padding:14px}
 }
-/* 태블릿 가로: 게임판이 화면 높이 안에 들어오도록 크기 제한 */
-@media(orientation:landscape) and (min-width:950px) and (min-height:601px){
-  .play-layout{grid-template-columns:minmax(0,min(640px,calc(100dvh - 300px))) minmax(230px,320px)}
-}
 @media(orientation:landscape) and (max-height:600px){
   .screen{padding-top:max(8px,env(safe-area-inset-top,0px));padding-bottom:max(8px,env(safe-area-inset-bottom,0px))}
   .topbar{margin-bottom:8px;min-height:40px;padding-bottom:8px}
-  .play-layout{grid-template-columns:minmax(0,calc(100dvh - 140px)) minmax(210px,1fr);justify-content:center;gap:18px}
+  .play-layout{grid-template-columns:minmax(0,calc(100dvh - 160px)) minmax(210px,1fr);justify-content:center;gap:18px}
   .turn-bar{min-height:48px}
   .turn-bar h1{font-size:16px;line-height:24px;margin-top:2px}
   .hint-area{min-height:33px;margin-bottom:4px}
@@ -272,4 +268,15 @@ body[data-motion=low]:before,body[data-motion=low]:after{animation:none!importan
   .choice{padding:10px}
   .home-intro h1{font-size:48px;line-height:56px}
   .score-block{padding:8px 10px}
+}
+
+/* 전체화면 버튼 + 부스 모드 (booth.js) */
+.topbar-group{display:flex;align-items:center;gap:8px}
+html.booth,html.booth body{overscroll-behavior:none}
+html.booth body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.booth-tip{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:130;background:#000;color:#ffe94d;border:3px solid #ffe94d;padding:10px 16px;font:16px/22px var(--font);max-width:calc(100% - 32px);width:max-content;text-align:center;animation:booth-blink 1s steps(2,end) infinite}
+@keyframes booth-blink{50%{border-color:#b38a00}}
+/* 태블릿 가로(디벗 등): 판이 화면 높이 안에 다 들어오게 */
+@media(orientation:landscape) and (min-width:950px) and (min-height:601px) and (max-height:1000px){
+  .play-layout{grid-template-columns:minmax(0,min(640px,calc(100dvh - 290px))) minmax(230px,320px);justify-content:center}
 }
